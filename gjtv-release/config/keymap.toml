@@ -1,0 +1,129 @@
+# GJTV Key Mapping Configuration
+# This file defines input mappings for keyboard, gamepad, and TV remote controls
+
+# Keyboard mappings
+# Format: "KeyName" = "Action"
+[keyboard]
+ArrowUp = "NavigateUp"
+ArrowDown = "NavigateDown"
+ArrowLeft = "NavigateLeft"
+ArrowRight = "NavigateRight"
+Enter = "Select"
+Escape = "Back"
+
+KeyM = "Menu"
+KeyQ = "Exit"
+Space = "Select"
+Tab = "NavigateRight"
+BackSpace = "Back"
+KeyW = "NavigateUp"
+KeyS = "NavigateDown"
+KeyA = "NavigateLeft"
+KeyD = "NavigateRight"
+
+KeyX = "Exit"
+KeyC = "CloseApp"
+Delete = "CloseApp"
+
+# Gamepad button mappings
+# Format: "ButtonName" = "Action"
+[gamepad_buttons]
+DPadUp = "NavigateUp"
+DPadDown = "NavigateDown"
+DPadLeft = "NavigateLeft"
+DPadRight = "NavigateRight"
+South = "Select"               # A button on Xbox, X on PlayStation
+East = "Back"                  # B button on Xbox, Circle on PlayStation
+North = "Menu"                 # Y button on Xbox, Triangle on PlayStation
+Start = "Menu"
+Select = "Back"
+Mode = "Menu"                  # Xbox button, PlayStation button
+LeftTrigger = "NavigateLeft"
+RightTrigger = "NavigateRight"
+LeftTrigger2 = "Back"
+RightTrigger2 = "Select"
+West = "CloseApp"              # X button on Xbox, Square on PlayStation
+
+# Gamepad analog stick mappings
+# Format: "StickDirection" = { axis = "AxisName", direction = "Positive/Negative", threshold = 0.5 }
+[gamepad_axes]
+LeftStickUp = { axis = "LeftStickY", direction = "Positive", threshold = 0.5 }
+LeftStickDown = { axis = "LeftStickY", direction = "Negative", threshold = 0.5 }
+LeftStickLeft = { axis = "LeftStickX", direction = "Negative", threshold = 0.5 }
+LeftStickRight = { axis = "LeftStickX", direction = "Positive", threshold = 0.5 }
+RightStickUp = { axis = "RightStickY", direction = "Positive", threshold = 0.3 }
+RightStickDown = { axis = "RightStickY", direction = "Negative", threshold = 0.3 }
+RightStickLeft = { axis = "RightStickX", direction = "Negative", threshold = 0.3 }
+RightStickRight = { axis = "RightStickX", direction = "Positive", threshold = 0.3 }
+
+# TV Remote IR button codes
+# Format: code = "Action"
+# Note: These are example codes - you'll need to capture your remote's actual codes
+[remote_buttons]
+# Common Samsung TV remote codes
+# Up arrow
+1082051581 = "NavigateUp"
+# Down arrow
+1082051582 = "NavigateDown"
+# Left arrow
+1082051583 = "NavigateLeft"
+# Right arrow
+1082051584 = "NavigateRight"
+# OK/Enter
+1082051585 = "Select"
+# Back/Return
+1082051586 = "Back"
+
+# Menu
+1082051588 = "Menu"
+# Exit/Power
+1082051589 = "Exit"
+
+# Alternative LG TV remote codes
+16753245 = "NavigateUp"
+16736925 = "NavigateDown"
+16720605 = "NavigateLeft"
+16761405 = "NavigateRight"
+16712445 = "Select"
+16738965 = "Back"
+
+16769055 = "Menu"
+16748655 = "Exit"
+
+# Sony TV remote codes
+2155823119 = "NavigateUp"
+2155823120 = "NavigateDown"
+2155823121 = "NavigateLeft"
+2155823122 = "NavigateRight"
+2155823123 = "Select"
+2155823124 = "Back"
+
+2155823126 = "Menu"
+2155823127 = "Exit"
+
+# Generic universal remote codes
+16 = "NavigateUp"
+17 = "NavigateDown"
+18 = "NavigateLeft"
+19 = "NavigateRight"
+20 = "Select"
+21 = "Back"
+
+23 = "Menu"
+24 = "Exit"
+
+# Number keys for quick navigation (optional)
+# 0 key
+48 = "Select"
+# 1 key
+49 = "Menu"
+# 2 key
+50 = "Menu"
+# 3 key
+51 = "Back"
+# 4 key
+52 = "Exit"
+# 5 key
+53 = "CloseApp"
+# 6 key
+54 = "CloseApp"

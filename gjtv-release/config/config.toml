@@ -1,0 +1,55 @@
+[[apps]]
+name = "Kodi"
+exec = "kodi"
+icon = ""
+category = "Media"
+
+[[apps]]
+name = "Plex"
+exec = "plex-media-player"
+icon = ""
+category = "Media"
+
+[[apps]]
+name = "YouTube"
+exec = "chromium --app=https://www.youtube.com/tv"
+icon = ""
+category = "Web"
+
+[[apps]]
+name = "Firefox"
+exec = "firefox"
+icon = ""
+category = "Web"
+
+[[apps]]
+name = "Files"
+exec = "dolphin"
+icon = ""
+category = "Utilities"
+
+[[apps]]
+name = "All Applications"
+exec = ""
+icon = "applications-system"
+category = "System"
+system_app = true
+
+[theme]
+# Text color (HEX, Alpha) - Normal text
+text_color = ["FFFFFF", "1.0"]
+
+# Selected text color (HEX, Alpha) - Highlighted/selected text
+selected_text_color = ["D6BA73", "1.0"]
+
+# Icon tint color (HEX, Alpha) - Color applied to default icons when tinting is enabled
+icon_tint_color = ["FF00FF", "1.0"]
+
+# Tint strength (0.0 to 1.0) - How strong the icon tint effect is
+tint_strength = 0.5
+
+# Background color (HEX, Alpha) - Main application background
+background_color = ["2E282A", "1.0"]
+
+# Enable icon tinting for default/fallback icons
+enable_icon_tint = true
