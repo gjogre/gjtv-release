@@ -65,21 +65,21 @@ create_backup() {
 # Check dependencies
 check_dependencies() {
     print_status "Checking dependencies..."
-    
+
     local missing_deps=()
-    
+
     if ! command_exists "curl"; then
         missing_deps+=("curl")
     fi
-    
+
     if ! command_exists "hyprctl"; then
         missing_deps+=("hyprland")
     fi
-    
+
     if ! command_exists "unzip"; then
         missing_deps+=("unzip")
     fi
-    
+
     if [ ${#missing_deps[@]} -ne 0 ]; then
         print_error "Missing dependencies:"
         for dep in "${missing_deps[@]}"; do
@@ -96,7 +96,7 @@ check_dependencies() {
         echo "  # Follow Hyprland installation instructions for your distro"
         exit 1
     fi
-    
+
     print_success "All dependencies found"
 }
 
@@ -104,22 +104,22 @@ check_dependencies() {
 download_gjtv() {
     local version="${1:-latest}"
     print_status "Downloading GJTV binary (${version})..."
-    
+
     local download_url
     if [ "$version" = "latest" ]; then
         download_url="${RAW_CONTENT_URL}/releases/latest/${BINARY_NAME}"
     else
         download_url="${RAW_CONTENT_URL}/releases/${version}/${BINARY_NAME}"
     fi
-    
+
     local temp_binary="/tmp/gjtv-download"
-    
+
     if ! curl -fsSL "$download_url" -o "$temp_binary"; then
         print_error "Failed to download GJTV binary from $download_url"
         print_error "Please check if the version exists or try 'latest'"
         exit 1
     fi
-    
+
     # Verify it's actually a binary (not HTML error page)
     if file "$temp_binary" | grep -q "HTML document"; then
         print_error "Downloaded file appears to be HTML (likely 404 error)"
@@ -127,116 +127,116 @@ download_gjtv() {
         rm -f "$temp_binary"
         exit 1
     fi
-    
+
     # Move to final location
     mkdir -p "$GJTV_BINARY_DIR"
     mv "$temp_binary" "$GJTV_BINARY_DIR/gjtv"
     chmod +x "$GJTV_BINARY_DIR/gjtv"
-    
+
     print_success "GJTV binary downloaded and installed"
 }
 
 # Download configuration files
 download_configs() {
     print_status "Downloading configuration files..."
-    
+
     mkdir -p "$GJTV_CONFIG_DIR"
-    
+
     # Download main config
     if ! curl -fsSL "${RAW_CONTENT_URL}/config/config.toml" -o "$GJTV_CONFIG_DIR/config.toml"; then
         print_warning "Failed to download config.toml, will be generated on first run"
     fi
-    
+
     # Download keymap config
     if ! curl -fsSL "${RAW_CONTENT_URL}/config/keymap.toml" -o "$GJTV_CONFIG_DIR/keymap.toml"; then
         print_warning "Failed to download keymap.toml, will be generated on first run"
     fi
-    
+
     print_success "Configuration files downloaded"
 }
 
 # Download assets
 download_assets() {
     print_status "Downloading assets..."
-    
+
     mkdir -p "$GJTV_CONFIG_DIR/assets/fonts"
-    mkdir -p "$GJTV_CONFIG_DIR/assets/icons"
-    
+    mkdir -p "$GJTV_BINARY_DIR/assets/icons"
+
     # Download fonts
     if curl -fsSL "${RAW_CONTENT_URL}/assets/fonts/CaskaydiaCoveNerdFont-Regular.ttf" -o "$GJTV_CONFIG_DIR/assets/fonts/CaskaydiaCoveNerdFont-Regular.ttf" 2>/dev/null; then
         print_success "Downloaded Cascadia Code font"
     else
         print_warning "Failed to download font, will use system fallback"
     fi
-    
+
     # Download default icon
-    if curl -fsSL "${RAW_CONTENT_URL}/assets/icons/testcat.png" -o "$GJTV_CONFIG_DIR/assets/icons/testcat.png" 2>/dev/null; then
+    if curl -fsSL "${RAW_CONTENT_URL}/assets/icons/testcat.png" -o "$GJTV_BINARY_DIR/assets/icons/testcat.png" 2>/dev/null; then
         print_success "Downloaded default icons"
     else
         print_warning "Failed to download icons, will use system icons"
     fi
-    
+
     print_success "Assets downloaded"
 }
 
 # Install binary (binary is already downloaded and in place)
 install_binary() {
     print_status "Setting up GJTV binary..."
-    
+
     # Add to PATH if not already there
     if ! echo "$PATH" | grep -q "$GJTV_BINARY_DIR"; then
         echo "" >> "$HOME/.bashrc"
         echo "# GJTV binary path" >> "$HOME/.bashrc"
         echo "export PATH=\"\$PATH:$GJTV_BINARY_DIR\"" >> "$HOME/.bashrc"
-        
+
         if [ -f "$HOME/.zshrc" ]; then
             echo "" >> "$HOME/.zshrc"
             echo "# GJTV binary path" >> "$HOME/.zshrc"
             echo "export PATH=\"\$PATH:$GJTV_BINARY_DIR\"" >> "$HOME/.zshrc"
         fi
-        
+
         print_warning "Added $GJTV_BINARY_DIR to PATH in shell config"
         print_warning "You may need to restart your shell or run: source ~/.bashrc"
     fi
-    
+
     print_success "GJTV binary installed to $GJTV_BINARY_DIR/gjtv"
 }
 
 # Install configuration (configs are already downloaded)
 install_config() {
     print_status "Verifying GJTV configuration..."
-    
+
     # Verify config directory exists
     if [ ! -d "$GJTV_CONFIG_DIR" ]; then
         mkdir -p "$GJTV_CONFIG_DIR"
     fi
-    
+
     # Check if configs exist, if not create minimal ones
     if [ ! -f "$GJTV_CONFIG_DIR/config.toml" ]; then
         print_warning "config.toml not found, GJTV will create default on first run"
     fi
-    
+
     if [ ! -f "$GJTV_CONFIG_DIR/keymap.toml" ]; then
         print_warning "keymap.toml not found, GJTV will create default on first run"
     fi
-    
+
     print_success "Configuration verified at $GJTV_CONFIG_DIR"
 }
 
 # Configure Hyprland
 configure_hyprland() {
     print_status "Configuring Hyprland integration..."
-    
+
     # Check if Hyprland config directory exists
     if [ ! -d "$HYPRLAND_CONFIG_DIR" ]; then
         print_error "Hyprland config directory not found: $HYPRLAND_CONFIG_DIR"
         print_error "Please ensure Hyprland is installed and configured"
         exit 1
     fi
-    
+
     local hyprland_conf="$HYPRLAND_CONFIG_DIR/hyprland.conf"
     local gjtv_conf="$HYPRLAND_CONFIG_DIR/gjtv.conf"
-    
+
     # Download GJTV Hyprland configuration
     if curl -fsSL "${RAW_CONTENT_URL}/hyprland/gjtv.conf" -o "$gjtv_conf"; then
         # Update the exec-once line to use the full path
@@ -254,16 +254,16 @@ exec-once = $GJTV_BINARY_DIR/gjtv
 bind = , Home, togglespecialworkspace, gjtv
 EOF
     fi
-    
+
     # Check if main config already includes GJTV config
     if [ -f "$hyprland_conf" ]; then
         if ! grep -q "source.*gjtv.conf" "$hyprland_conf"; then
             create_backup "$hyprland_conf"
-            
+
             echo "" >> "$hyprland_conf"
             echo "# GJTV Configuration" >> "$hyprland_conf"
             echo "source = ~/.config/hypr/gjtv.conf" >> "$hyprland_conf"
-            
+
             print_success "Added GJTV configuration to Hyprland config"
         else
             print_success "GJTV configuration already included in Hyprland config"
@@ -278,19 +278,19 @@ source = ~/.config/hypr/gjtv.conf
 EOF
         print_success "Created basic Hyprland configuration"
     fi
-    
+
     print_success "Hyprland integration configured"
 }
 
 # Create desktop entry
 create_desktop_entry() {
     print_status "Creating desktop entry..."
-    
+
     local desktop_dir="$HOME/.local/share/applications"
     local desktop_file="$desktop_dir/gjtv.desktop"
-    
+
     mkdir -p "$desktop_dir"
-    
+
     cat > "$desktop_file" << EOF
 [Desktop Entry]
 Version=1.0
@@ -305,7 +305,7 @@ Categories=Game;AudioVideo;
 Keywords=launcher;tv;games;media;
 StartupNotify=false
 EOF
-    
+
     print_success "Desktop entry created"
 }
 
@@ -313,18 +313,18 @@ EOF
 update_installation() {
     local version="${1:-latest}"
     print_status "Updating existing GJTV installation to $version..."
-    
+
     # Stop any running GJTV instances
     if pgrep -x "gjtv" > /dev/null; then
         print_status "Stopping running GJTV instances..."
         pkill -x "gjtv" || true
         sleep 1
     fi
-    
+
     # Update binary
     download_gjtv "$version"
     install_binary
-    
+
     # Update configurations (backup existing)
     if [ -f "$GJTV_CONFIG_DIR/config.toml" ]; then
         create_backup "$GJTV_CONFIG_DIR/config.toml"
@@ -332,30 +332,30 @@ update_installation() {
     if [ -f "$GJTV_CONFIG_DIR/keymap.toml" ]; then
         create_backup "$GJTV_CONFIG_DIR/keymap.toml"
     fi
-    
+
     download_configs
     install_config
     configure_hyprland
-    
+
     print_success "GJTV updated successfully"
 }
 
 # Uninstall GJTV
 uninstall_gjtv() {
     print_status "Uninstalling GJTV..."
-    
+
     # Stop any running instances
     if pgrep -x "gjtv" > /dev/null; then
         print_status "Stopping GJTV..."
         pkill -x "gjtv" || true
     fi
-    
+
     # Remove binary
     if [ -f "$GJTV_BINARY_DIR/gjtv" ]; then
         rm "$GJTV_BINARY_DIR/gjtv"
         print_success "Removed binary"
     fi
-    
+
     # Remove configuration (ask user)
     if [ -d "$GJTV_CONFIG_DIR" ]; then
         read -p "Remove configuration directory $GJTV_CONFIG_DIR? [y/N]: " -n 1 -r
@@ -365,14 +365,14 @@ uninstall_gjtv() {
             print_success "Removed configuration directory"
         fi
     fi
-    
+
     # Remove Hyprland configuration
     local gjtv_conf="$HYPRLAND_CONFIG_DIR/gjtv.conf"
     if [ -f "$gjtv_conf" ]; then
         rm "$gjtv_conf"
         print_success "Removed Hyprland configuration"
     fi
-    
+
     # Remove from Hyprland main config
     local hyprland_conf="$HYPRLAND_CONFIG_DIR/hyprland.conf"
     if [ -f "$hyprland_conf" ] && grep -q "gjtv.conf" "$hyprland_conf"; then
@@ -381,14 +381,14 @@ uninstall_gjtv() {
         sed -i '/# GJTV Configuration/d' "$hyprland_conf"
         print_success "Removed GJTV from Hyprland configuration"
     fi
-    
+
     # Remove desktop entry
     local desktop_file="$HOME/.local/share/applications/gjtv.desktop"
     if [ -f "$desktop_file" ]; then
         rm "$desktop_file"
         print_success "Removed desktop entry"
     fi
-    
+
     print_success "GJTV uninstalled"
 }
 
@@ -396,21 +396,21 @@ uninstall_gjtv() {
 show_status() {
     print_status "GJTV Installation Status:"
     echo ""
-    
+
     # Check binary
     if [ -f "$GJTV_BINARY_DIR/gjtv" ]; then
         print_success "Binary: Installed ($GJTV_BINARY_DIR/gjtv)"
     else
         print_error "Binary: Not installed"
     fi
-    
+
     # Check configuration
     if [ -d "$GJTV_CONFIG_DIR" ]; then
         print_success "Configuration: Installed ($GJTV_CONFIG_DIR)"
     else
         print_error "Configuration: Not installed"
     fi
-    
+
     # Check Hyprland integration
     local gjtv_conf="$HYPRLAND_CONFIG_DIR/gjtv.conf"
     if [ -f "$gjtv_conf" ]; then
@@ -418,14 +418,14 @@ show_status() {
     else
         print_error "Hyprland config: Not installed"
     fi
-    
+
     # Check if running
     if pgrep -x "gjtv" > /dev/null; then
         print_success "Status: Running"
     else
         print_warning "Status: Not running"
     fi
-    
+
     echo ""
 }
 
@@ -469,7 +469,7 @@ install_gjtv() {
     echo "Installing GJTV version: $version"
     echo "Platform: $PLATFORM-$ARCH"
     echo ""
-    
+
     check_dependencies
     download_gjtv "$version"
     download_configs
@@ -478,7 +478,7 @@ install_gjtv() {
     install_config
     configure_hyprland
     create_desktop_entry
-    
+
     echo ""
     print_success "🎉 GJTV installation completed successfully!"
     echo ""

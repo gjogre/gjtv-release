@@ -1,12 +1,6 @@
 [[apps]]
-name = "Kodi"
-exec = "kodi"
-icon = ""
-category = "Media"
-
-[[apps]]
-name = "Plex"
-exec = "plex-media-player"
+name = "KotiDVD"
+exec = "jellyfin"
 icon = ""
 category = "Media"
 
@@ -14,7 +8,7 @@ category = "Media"
 name = "YouTube"
 exec = "chromium --app=https://www.youtube.com/tv"
 icon = ""
-category = "Web"
+category = "Media"
 
 [[apps]]
 name = "Firefox"
