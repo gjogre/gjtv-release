@@ -181,11 +181,16 @@ download_assets() {
     fi
 
     # Download default icons
-    if curl -fsSL "${RAW_CONTENT_URL}/assets/icons/fallback.png" -o "$GJTV_CONFIG_DIR/assets/icons/fallback.png" 2>/dev/null; then
+    if curl -fsSL "${RAW_CONTENT_URL}/assets/icons/default.png" -o "$GJTV_CONFIG_DIR/assets/icons/default.png" 2>/dev/null; then
         print_success "Downloaded default icons"
     else
-        print_warning "Failed to download icons, will use system icons"
+        print_warning "Failed to download default icon, will use system icons"
     fi
+
+    # Download additional fallback icons
+    for fallback in "app" "unknown" "fallback"; do
+        curl -fsSL "${RAW_CONTENT_URL}/assets/icons/${fallback}.png" -o "$GJTV_CONFIG_DIR/assets/icons/${fallback}.png" 2>/dev/null || true
+    done
 
     # Download app category icons
     for icon in "games" "media" "internet" "graphics" "development" "communication"; do
