@@ -1,49 +1,77 @@
 [[apps]]
-name = "KotiDVD"
-exec = "jellyfin"
-icon = ""
+name = "Firefox"
+exec = "firefox"
+icon = "firefox"
+category = "Internet"
+
+[[apps]]
+name = "VLC Media Player"
+exec = "vlc"
+icon = "vlc"
 category = "Media"
+
+[[apps]]
+name = "Steam"
+exec = "steam"
+icon = "steam"
+category = "Games"
+
+[[apps]]
+name = "Discord"
+exec = "discord"
+icon = "discord"
+category = "Communication"
+
+[[apps]]
+name = "TIDAL Hi-Fi"
+exec = "tidal-hifi"
+icon = "TIDAL_Hi-Fi"
+category = "Media"
+
+[[apps]]
+name = "Netflix"
+exec = "firefox https://netflix.com"
+icon = "default"
+category = "Streaming"
 
 [[apps]]
 name = "YouTube"
-exec = "chromium --app=https://www.youtube.com/tv"
-icon = ""
+exec = "firefox https://youtube.com"
+icon = "default"
+category = "Streaming"
+
+[[apps]]
+name = "Spotify Web"
+exec = "firefox https://open.spotify.com"
+icon = "default"
+category = "Music"
+
+[[apps]]
+name = "Proton Mail"
+exec = "protonmail-desktop"
+icon = "Proton_Mail"
+category = "Communication"
+
+[[apps]]
+name = "Designer"
+exec = "designer"
+icon = "designer"
+category = "Graphics"
+
+[[apps]]
+name = "Pinta"
+exec = "pinta"
+icon = "pinta"
+category = "Graphics"
+
+[[apps]]
+name = "MakeMKV"
+exec = "makemkv"
+icon = "makemkv"
 category = "Media"
 
 [[apps]]
-name = "Firefox"
-exec = "firefox"
-icon = ""
-category = "Web"
-
-[[apps]]
-name = "Files"
-exec = "dolphin"
-icon = ""
-category = "Utilities"
-
-[[apps]]
-name = "All Applications"
-exec = ""
-icon = "applications-system"
-category = "System"
-system_app = true
-
-[theme]
-# Text color (HEX, Alpha) - Normal text
-text_color = ["FFFFFF", "1.0"]
-
-# Selected text color (HEX, Alpha) - Highlighted/selected text
-selected_text_color = ["D6BA73", "1.0"]
-
-# Icon tint color (HEX, Alpha) - Color applied to default icons when tinting is enabled
-icon_tint_color = ["FF00FF", "1.0"]
-
-# Tint strength (0.0 to 1.0) - How strong the icon tint effect is
-tint_strength = 0.5
-
-# Background color (HEX, Alpha) - Main application background
-background_color = ["2E282A", "1.0"]
-
-# Enable icon tinting for default/fallback icons
-enable_icon_tint = true
+name = "Zed Editor"
+exec = "zed"
+icon = "zed"
+category = "Development"

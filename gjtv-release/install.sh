@@ -147,9 +147,19 @@ download_configs() {
         print_warning "Failed to download config.toml, will be generated on first run"
     fi
 
+    # Download settings config
+    if ! curl -fsSL "${RAW_CONTENT_URL}/config/settings.toml" -o "$GJTV_CONFIG_DIR/settings.toml"; then
+        print_warning "Failed to download settings.toml, will be generated on first run"
+    fi
+
     # Download keymap config
     if ! curl -fsSL "${RAW_CONTENT_URL}/config/keymap.toml" -o "$GJTV_CONFIG_DIR/keymap.toml"; then
         print_warning "Failed to download keymap.toml, will be generated on first run"
+    fi
+
+    # Download theme config
+    if ! curl -fsSL "${RAW_CONTENT_URL}/config/theme.toml" -o "$GJTV_CONFIG_DIR/theme.toml"; then
+        print_warning "Failed to download theme.toml, will be generated on first run"
     fi
 
     print_success "Configuration files downloaded"
@@ -160,21 +170,27 @@ download_assets() {
     print_status "Downloading assets..."
 
     mkdir -p "$GJTV_CONFIG_DIR/assets/fonts"
-    mkdir -p "$GJTV_BINARY_DIR/assets/icons"
+    mkdir -p "$GJTV_CONFIG_DIR/assets/icons"
+    mkdir -p "$GJTV_CONFIG_DIR/assets/icons/cached"
 
     # Download fonts
-    if curl -fsSL "${RAW_CONTENT_URL}/assets/fonts/CaskaydiaCoveNerdFont-Regular.ttf" -o "$GJTV_CONFIG_DIR/assets/fonts/CaskaydiaCoveNerdFont-Regular.ttf" 2>/dev/null; then
-        print_success "Downloaded Cascadia Code font"
+    if curl -fsSL "${RAW_CONTENT_URL}/assets/fonts/DepartureMono-Regular.ttf" -o "$GJTV_CONFIG_DIR/assets/fonts/DepartureMono-Regular.ttf" 2>/dev/null; then
+        print_success "Downloaded DepartureMono font"
     else
         print_warning "Failed to download font, will use system fallback"
     fi
 
-    # Download default icon
-    if curl -fsSL "${RAW_CONTENT_URL}/assets/icons/testcat.png" -o "$GJTV_BINARY_DIR/assets/icons/testcat.png" 2>/dev/null; then
+    # Download default icons
+    if curl -fsSL "${RAW_CONTENT_URL}/assets/icons/fallback.png" -o "$GJTV_CONFIG_DIR/assets/icons/fallback.png" 2>/dev/null; then
         print_success "Downloaded default icons"
     else
         print_warning "Failed to download icons, will use system icons"
     fi
+
+    # Download app category icons
+    for icon in "games" "media" "internet" "graphics" "development" "communication"; do
+        curl -fsSL "${RAW_CONTENT_URL}/assets/icons/${icon}.png" -o "$GJTV_CONFIG_DIR/assets/icons/${icon}.png" 2>/dev/null || true
+    done
 
     print_success "Assets downloaded"
 }
@@ -216,8 +232,16 @@ install_config() {
         print_warning "config.toml not found, GJTV will create default on first run"
     fi
 
+    if [ ! -f "$GJTV_CONFIG_DIR/settings.toml" ]; then
+        print_warning "settings.toml not found, GJTV will create default on first run"
+    fi
+
     if [ ! -f "$GJTV_CONFIG_DIR/keymap.toml" ]; then
         print_warning "keymap.toml not found, GJTV will create default on first run"
+    fi
+
+    if [ ! -f "$GJTV_CONFIG_DIR/theme.toml" ]; then
+        print_warning "theme.toml not found, GJTV will create default on first run"
     fi
 
     print_success "Configuration verified at $GJTV_CONFIG_DIR"
@@ -250,6 +274,8 @@ workspace = special:gjtv, gapsout:0, gapsin:0
 windowrulev2 = workspace special:gjtv, class:^(gjtv)$
 windowrulev2 = fullscreen, class:^(gjtv)$
 windowrulev2 = noborder, class:^(gjtv)$
+windowrulev2 = nofocus, class:^(gjtv)$
+windowrulev2 = suppressevent maximize, class:^(gjtv)$
 exec-once = $GJTV_BINARY_DIR/gjtv
 bind = , Home, togglespecialworkspace, gjtv
 EOF
@@ -329,8 +355,14 @@ update_installation() {
     if [ -f "$GJTV_CONFIG_DIR/config.toml" ]; then
         create_backup "$GJTV_CONFIG_DIR/config.toml"
     fi
+    if [ -f "$GJTV_CONFIG_DIR/settings.toml" ]; then
+        create_backup "$GJTV_CONFIG_DIR/settings.toml"
+    fi
     if [ -f "$GJTV_CONFIG_DIR/keymap.toml" ]; then
         create_backup "$GJTV_CONFIG_DIR/keymap.toml"
+    fi
+    if [ -f "$GJTV_CONFIG_DIR/theme.toml" ]; then
+        create_backup "$GJTV_CONFIG_DIR/theme.toml"
     fi
 
     download_configs
@@ -456,6 +488,7 @@ show_help() {
     echo "After installation:"
     echo "  - Press Home key to toggle GJTV"
     echo "  - Use arrow keys or gamepad to navigate"
+    echo "  - Press M key to open Settings tab"
     echo "  - Configuration: $GJTV_CONFIG_DIR"
     echo "  - Release repo: $RELEASE_REPO_URL"
     echo ""
@@ -485,8 +518,17 @@ install_gjtv() {
     echo "Next steps:"
     echo "1. Restart Hyprland or reload configuration: hyprctl reload"
     echo "2. Press Home key to open GJTV"
-    echo "3. Configure apps in: $GJTV_CONFIG_DIR/config.toml"
-    echo "4. Customize controls in: $GJTV_CONFIG_DIR/keymap.toml"
+    echo "3. Press M key to access Settings tab"
+    echo "4. Navigate to Settings tab (press M key) to customize:"
+    echo "   - Cell Appearance: Customize app cell size, corners, shadows"
+    echo "   - Tab Appearance: Adjust tab styling and positioning"
+    echo "   - Animations: Enable dice roll and breathing animations"
+    echo "   - Text Styling: Configure fonts and text effects"
+    echo "5. Edit configuration files in: $GJTV_CONFIG_DIR/"
+    echo "   - config.toml: Application definitions"
+    echo "   - settings.toml: Visual and behavior settings"
+    echo "   - keymap.toml: Key binding configuration"
+    echo "   - theme.toml: Color themes and styling"
     echo ""
     echo "For help: $0 help"
 }

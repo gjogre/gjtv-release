@@ -1,129 +1,161 @@
-# GJTV Key Mapping Configuration
-# This file defines input mappings for keyboard, gamepad, and TV remote controls
+# GJTV Keymap Configuration
+# Define key bindings for navigation and actions
 
-# Keyboard mappings
-# Format: "KeyName" = "Action"
-[keyboard]
-ArrowUp = "NavigateUp"
-ArrowDown = "NavigateDown"
-ArrowLeft = "NavigateLeft"
-ArrowRight = "NavigateRight"
-Enter = "Select"
-Escape = "Back"
+[navigation]
+# Basic movement
+up = "ArrowUp"
+down = "ArrowDown"
+left = "ArrowLeft"
+right = "ArrowRight"
 
-KeyM = "Menu"
-KeyQ = "Exit"
-Space = "Select"
-Tab = "NavigateRight"
-BackSpace = "Back"
-KeyW = "NavigateUp"
-KeyS = "NavigateDown"
-KeyA = "NavigateLeft"
-KeyD = "NavigateRight"
+# Alternative movement (WASD)
+up_alt = "KeyW"
+down_alt = "KeyS"
+left_alt = "KeyA"
+right_alt = "KeyD"
 
-KeyX = "Exit"
-KeyC = "CloseApp"
-Delete = "CloseApp"
+# Vim-style movement
+up_vim = "KeyK"
+down_vim = "KeyJ"
+left_vim = "KeyH"
+right_vim = "KeyL"
 
-# Gamepad button mappings
-# Format: "ButtonName" = "Action"
-[gamepad_buttons]
-DPadUp = "NavigateUp"
-DPadDown = "NavigateDown"
-DPadLeft = "NavigateLeft"
-DPadRight = "NavigateRight"
-South = "Select"               # A button on Xbox, X on PlayStation
-East = "Back"                  # B button on Xbox, Circle on PlayStation
-North = "Menu"                 # Y button on Xbox, Triangle on PlayStation
-Start = "Menu"
-Select = "Back"
-Mode = "Menu"                  # Xbox button, PlayStation button
-LeftTrigger = "NavigateLeft"
-RightTrigger = "NavigateRight"
-LeftTrigger2 = "Back"
-RightTrigger2 = "Select"
-West = "CloseApp"              # X button on Xbox, Square on PlayStation
+# Tab navigation
+next_tab = "Tab"
+prev_tab = "ShiftLeft+Tab"
+tab_1 = "Digit1"
+tab_2 = "Digit2"
+tab_3 = "Digit3"
+tab_4 = "Digit4"
+tab_5 = "Digit5"
 
-# Gamepad analog stick mappings
-# Format: "StickDirection" = { axis = "AxisName", direction = "Positive/Negative", threshold = 0.5 }
-[gamepad_axes]
-LeftStickUp = { axis = "LeftStickY", direction = "Positive", threshold = 0.5 }
-LeftStickDown = { axis = "LeftStickY", direction = "Negative", threshold = 0.5 }
-LeftStickLeft = { axis = "LeftStickX", direction = "Negative", threshold = 0.5 }
-LeftStickRight = { axis = "LeftStickX", direction = "Positive", threshold = 0.5 }
-RightStickUp = { axis = "RightStickY", direction = "Positive", threshold = 0.3 }
-RightStickDown = { axis = "RightStickY", direction = "Negative", threshold = 0.3 }
-RightStickLeft = { axis = "RightStickX", direction = "Negative", threshold = 0.3 }
-RightStickRight = { axis = "RightStickX", direction = "Positive", threshold = 0.3 }
+[actions]
+# Core actions
+launch = "Enter"
+launch_alt = "Space"
+back = "Escape"
+exit = "KeyQ"
 
-# TV Remote IR button codes
-# Format: code = "Action"
-# Note: These are example codes - you'll need to capture your remote's actual codes
-[remote_buttons]
-# Common Samsung TV remote codes
-# Up arrow
-1082051581 = "NavigateUp"
-# Down arrow
-1082051582 = "NavigateDown"
-# Left arrow
-1082051583 = "NavigateLeft"
-# Right arrow
-1082051584 = "NavigateRight"
-# OK/Enter
-1082051585 = "Select"
-# Back/Return
-1082051586 = "Back"
+# Settings and configuration
+settings = "KeyM"
+toggle_fullscreen = "F11"
+reload_config = "F5"
 
-# Menu
-1082051588 = "Menu"
-# Exit/Power
-1082051589 = "Exit"
+# Application management
+close_app = "KeyC"
+force_quit = "ControlLeft+KeyC"
+restart_app = "KeyR"
 
-# Alternative LG TV remote codes
-16753245 = "NavigateUp"
-16736925 = "NavigateDown"
-16720605 = "NavigateLeft"
-16761405 = "NavigateRight"
-16712445 = "Select"
-16738965 = "Back"
+[scrolling]
+# Page navigation
+page_up = "PageUp"
+page_down = "PageDown"
+home = "Home"
+end = "End"
 
-16769055 = "Menu"
-16748655 = "Exit"
+# Fast scrolling
+scroll_up_fast = "ControlLeft+ArrowUp"
+scroll_down_fast = "ControlLeft+ArrowDown"
 
-# Sony TV remote codes
-2155823119 = "NavigateUp"
-2155823120 = "NavigateDown"
-2155823121 = "NavigateLeft"
-2155823122 = "NavigateRight"
-2155823123 = "Select"
-2155823124 = "Back"
+[gamepad]
+# Xbox/PlayStation controller mapping
+# D-pad
+dpad_up = "GamepadDPadUp"
+dpad_down = "GamepadDPadDown"
+dpad_left = "GamepadDPadLeft"
+dpad_right = "GamepadDPadRight"
 
-2155823126 = "Menu"
-2155823127 = "Exit"
+# Face buttons
+launch_gamepad = "GamepadButtonSouth"    # A/X button
+back_gamepad = "GamepadButtonEast"       # B/Circle button
+settings_gamepad = "GamepadButtonWest"   # X/Square button
+menu_gamepad = "GamepadButtonNorth"      # Y/Triangle button
 
-# Generic universal remote codes
-16 = "NavigateUp"
-17 = "NavigateDown"
-18 = "NavigateLeft"
-19 = "NavigateRight"
-20 = "Select"
-21 = "Back"
+# Shoulder buttons
+next_tab_gamepad = "GamepadButtonRightShoulder"
+prev_tab_gamepad = "GamepadButtonLeftShoulder"
 
-23 = "Menu"
-24 = "Exit"
+# Triggers
+launch_trigger = "GamepadButtonRightTrigger"
 
-# Number keys for quick navigation (optional)
-# 0 key
-48 = "Select"
-# 1 key
-49 = "Menu"
-# 2 key
-50 = "Menu"
-# 3 key
-51 = "Back"
-# 4 key
-52 = "Exit"
-# 5 key
-53 = "CloseApp"
-# 6 key
-54 = "CloseApp"
+# Analog sticks
+stick_deadzone = 0.2
+stick_sensitivity = 1.0
+
+[remote_control]
+# TV remote / IR remote control codes
+# These are example codes - adjust for your specific remote
+home_button = "Home"
+ok_button = "Enter"
+back_button = "Escape"
+menu_button = "KeyM"
+
+# Navigation
+remote_up = "ArrowUp"
+remote_down = "ArrowDown"
+remote_left = "ArrowLeft"
+remote_right = "ArrowRight"
+
+# Media keys
+play_pause = "MediaPlayPause"
+stop = "MediaStop"
+volume_up = "AudioVolumeUp"
+volume_down = "AudioVolumeDown"
+mute = "AudioVolumeMute"
+
+# Number keys for direct selection
+select_1 = "Digit1"
+select_2 = "Digit2"
+select_3 = "Digit3"
+select_4 = "Digit4"
+select_5 = "Digit5"
+select_6 = "Digit6"
+select_7 = "Digit7"
+select_8 = "Digit8"
+select_9 = "Digit9"
+select_0 = "Digit0"
+
+[accessibility]
+# High contrast mode toggle
+high_contrast = "ControlLeft+ShiftLeft+KeyH"
+
+# Large text mode
+large_text = "ControlLeft+Plus"
+small_text = "ControlLeft+Minus"
+
+# Voice control (if implemented)
+voice_activation = "ControlLeft+ShiftLeft+KeyV"
+
+# Screen reader compatibility
+announce_selection = "ControlLeft+ShiftLeft+KeyA"
+
+[developer]
+# Debug and development keys
+debug_mode = "F12"
+reload_ui = "ControlLeft+KeyR"
+show_fps = "ControlLeft+ShiftLeft+KeyF"
+screenshot = "F9"
+
+# Console access
+toggle_console = "Grave"  # ` key
+clear_console = "ControlLeft+KeyL"
+
+[custom]
+# User-defined custom key bindings
+# Add your own custom mappings here
+# Example:
+# custom_action_1 = "ControlLeft+KeyX"
+# custom_action_2 = "ShiftLeft+KeyZ"
+
+[modifiers]
+# Modifier key behavior
+ctrl_repeat_rate = 50      # milliseconds
+shift_hold_time = 500      # milliseconds
+alt_double_tap = true      # enable alt double-tap detection
+
+[timing]
+# Input timing configuration
+key_repeat_delay = 250     # milliseconds before repeat starts
+key_repeat_rate = 50       # milliseconds between repeats
+double_click_time = 300    # milliseconds for double-click detection
+hold_time = 800           # milliseconds to register as "hold"
