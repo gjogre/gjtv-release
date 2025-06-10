@@ -266,13 +266,21 @@ configure_hyprland() {
     local hyprland_conf="$HYPRLAND_CONFIG_DIR/hyprland.conf"
     local gjtv_conf="$HYPRLAND_CONFIG_DIR/gjtv.conf"
 
-    # Download GJTV Hyprland configuration
-    if curl -fsSL "${RAW_CONTENT_URL}/hyprland/gjtv.conf" -o "$gjtv_conf"; then
+    # Use local GJTV Hyprland configuration if available, otherwise download
+    local local_gjtv_conf="$(dirname "$0")/hyprland/gjtv.conf"
+    
+    if [ -f "$local_gjtv_conf" ]; then
+        # Copy local configuration
+        cp "$local_gjtv_conf" "$gjtv_conf"
+        # Update the exec-once line to use the full path
+        sed -i "s|exec-once = gjtv|exec-once = $GJTV_BINARY_DIR/gjtv|g" "$gjtv_conf"
+        print_success "Copied local Hyprland configuration"
+    elif curl -fsSL "${RAW_CONTENT_URL}/hyprland/gjtv.conf" -o "$gjtv_conf" 2>/dev/null; then
         # Update the exec-once line to use the full path
         sed -i "s|exec-once = gjtv|exec-once = $GJTV_BINARY_DIR/gjtv|g" "$gjtv_conf"
         print_success "Downloaded Hyprland configuration"
     else
-        print_warning "Failed to download Hyprland config, creating basic one"
+        print_warning "Failed to find or download Hyprland config, creating basic one"
         cat > "$gjtv_conf" << EOF
 # GJTV Hyprland Configuration
 workspace = special:gjtv, gapsout:0, gapsin:0
