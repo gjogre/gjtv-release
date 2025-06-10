@@ -274,7 +274,6 @@ workspace = special:gjtv, gapsout:0, gapsin:0
 windowrulev2 = workspace special:gjtv, class:^(gjtv)$
 windowrulev2 = fullscreen, class:^(gjtv)$
 windowrulev2 = noborder, class:^(gjtv)$
-windowrulev2 = nofocus, class:^(gjtv)$
 windowrulev2 = suppressevent maximize, class:^(gjtv)$
 exec-once = $GJTV_BINARY_DIR/gjtv
 bind = , Home, togglespecialworkspace, gjtv
