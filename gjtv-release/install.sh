@@ -733,11 +733,6 @@ EOF
             print_success "GJTV configuration already included in Hyprland config"
         fi
 
-        # Add hyprpaper source if not already present
-        if ! grep -q "source.*hyprpaper.conf" "$hyprland_conf" && [ -f "$HYPRLAND_CONFIG_DIR/hyprpaper.conf" ]; then
-            echo "source = ~/.config/hypr/hyprpaper.conf" >> "$hyprland_conf"
-            print_success "Added hyprpaper configuration to Hyprland config"
-        fi
     else
         print_warning "Hyprland config file not found, creating basic config with GJTV"
         cat > "$hyprland_conf" << EOF
