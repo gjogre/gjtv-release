@@ -22,7 +22,7 @@ NC='\033[0m' # No Color
 # Configuration
 RELEASE_REPO_URL="https://github.com/gjogre/gjtv-release"
 RELEASE_API_URL="https://api.github.com/repos/gjogre/gjtv-release"
-RAW_CONTENT_URL="https://raw.githubusercontent.com/gjogre/gjtv-release/main"
+RAW_CONTENT_URL="https://raw.githubusercontent.com/gjogre/gjtv-release/main/gjtv-release"
 HYPRLAND_CONFIG_DIR="$HOME/.config/hypr"
 GJTV_BINARY_DIR="$HOME/.local/bin"
 GJTV_CONFIG_DIR="$HOME/.config/gjtv"
@@ -455,7 +455,7 @@ download_configs() {
     mkdir -p "$temp_dir"
 
     # Download main config
-    if curl -fsSL "${RAW_CONTENT_URL}/gjtv-release/config/config.toml" -o "$temp_dir/config.toml" 2>/dev/null; then
+    if curl -fsSL "${RAW_CONTENT_URL}/config/config.toml" -o "$temp_dir/config.toml" 2>/dev/null; then
         if [ "$PRESERVE_CONFIG" = true ] && needs_migration "$GJTV_CONFIG_DIR/config.toml" "$temp_dir/config.toml"; then
             migrate_config "$GJTV_CONFIG_DIR/config.toml" "$temp_dir/config.toml" "config.toml"
         elif [ "$PRESERVE_CONFIG" = false ] || [ ! -f "$GJTV_CONFIG_DIR/config.toml" ]; then
@@ -469,7 +469,7 @@ download_configs() {
     fi
 
     # Download settings config
-    if curl -fsSL "${RAW_CONTENT_URL}/gjtv-release/config/settings.toml" -o "$temp_dir/settings.toml" 2>/dev/null; then
+    if curl -fsSL "${RAW_CONTENT_URL}/config/settings.toml" -o "$temp_dir/settings.toml" 2>/dev/null; then
         if [ "$PRESERVE_CONFIG" = true ] && needs_migration "$GJTV_CONFIG_DIR/settings.toml" "$temp_dir/settings.toml"; then
             migrate_config "$GJTV_CONFIG_DIR/settings.toml" "$temp_dir/settings.toml" "settings.toml"
         elif [ "$PRESERVE_CONFIG" = false ] || [ ! -f "$GJTV_CONFIG_DIR/settings.toml" ]; then
@@ -483,7 +483,7 @@ download_configs() {
     fi
 
     # Download keymap config
-    if curl -fsSL "${RAW_CONTENT_URL}/gjtv-release/config/keymap.toml" -o "$temp_dir/keymap.toml" 2>/dev/null; then
+    if curl -fsSL "${RAW_CONTENT_URL}/config/keymap.toml" -o "$temp_dir/keymap.toml" 2>/dev/null; then
         if [ "$PRESERVE_CONFIG" = true ] && needs_migration "$GJTV_CONFIG_DIR/keymap.toml" "$temp_dir/keymap.toml"; then
             migrate_config "$GJTV_CONFIG_DIR/keymap.toml" "$temp_dir/keymap.toml" "keymap.toml"
         elif [ "$PRESERVE_CONFIG" = false ] || [ ! -f "$GJTV_CONFIG_DIR/keymap.toml" ]; then
@@ -497,7 +497,7 @@ download_configs() {
     fi
 
     # Download theme config
-    if curl -fsSL "${RAW_CONTENT_URL}/gjtv-release/config/theme.toml" -o "$temp_dir/theme.toml" 2>/dev/null; then
+    if curl -fsSL "${RAW_CONTENT_URL}/config/theme.toml" -o "$temp_dir/theme.toml" 2>/dev/null; then
         if [ "$PRESERVE_CONFIG" = true ] && needs_migration "$GJTV_CONFIG_DIR/theme.toml" "$temp_dir/theme.toml"; then
             migrate_config "$GJTV_CONFIG_DIR/theme.toml" "$temp_dir/theme.toml" "theme.toml"
         elif [ "$PRESERVE_CONFIG" = false ] || [ ! -f "$GJTV_CONFIG_DIR/theme.toml" ]; then
@@ -525,21 +525,21 @@ download_assets() {
     mkdir -p "$GJTV_CONFIG_DIR/assets/icons/cached"
 
     # Download fonts
-    if curl -fsSL "${RAW_CONTENT_URL}/gjtv-release/assets/fonts/DepartureMono-Regular.ttf" -o "$GJTV_CONFIG_DIR/assets/fonts/DepartureMono-Regular.ttf" 2>/dev/null; then
+    if curl -fsSL "${RAW_CONTENT_URL}/assets/fonts/DepartureMono-Regular.ttf" -o "$GJTV_CONFIG_DIR/assets/fonts/DepartureMono-Regular.ttf" 2>/dev/null; then
         print_success "Downloaded DepartureMono font"
     else
         print_warning "Failed to download font, will use system fallback"
     fi
 
     # Download GJTV wallpaper
-    if curl -fsSL "${RAW_CONTENT_URL}/gjtv-release/assets/GJTV.png" -o "$GJTV_CONFIG_DIR/assets/GJTV.png" 2>/dev/null; then
+    if curl -fsSL "${RAW_CONTENT_URL}/assets/GJTV.png" -o "$GJTV_CONFIG_DIR/assets/GJTV.png" 2>/dev/null; then
         print_success "Downloaded GJTV wallpaper"
     else
         print_warning "Failed to download GJTV wallpaper"
     fi
 
     # Download default icons
-    if curl -fsSL "${RAW_CONTENT_URL}/gjtv-release/assets/icons/default.png" -o "$GJTV_CONFIG_DIR/assets/icons/default.png" 2>/dev/null; then
+    if curl -fsSL "${RAW_CONTENT_URL}/assets/icons/default.png" -o "$GJTV_CONFIG_DIR/assets/icons/default.png" 2>/dev/null; then
         print_success "Downloaded default icons"
     else
         print_warning "Failed to download default icon, will use system icons"
@@ -547,12 +547,12 @@ download_assets() {
 
     # Download additional fallback icons
     for fallback in "app" "unknown" "fallback"; do
-        curl -fsSL "${RAW_CONTENT_URL}/gjtv-release/assets/icons/${fallback}.png" -o "$GJTV_CONFIG_DIR/assets/icons/${fallback}.png" 2>/dev/null || true
+        curl -fsSL "${RAW_CONTENT_URL}/assets/icons/${fallback}.png" -o "$GJTV_CONFIG_DIR/assets/icons/${fallback}.png" 2>/dev/null || true
     done
 
     # Download app category icons
     for icon in "games" "media" "internet" "graphics" "development" "communication"; do
-        curl -fsSL "${RAW_CONTENT_URL}/gjtv-release/assets/icons/${icon}.png" -o "$GJTV_CONFIG_DIR/assets/icons/${icon}.png" 2>/dev/null || true
+        curl -fsSL "${RAW_CONTENT_URL}/assets/icons/${icon}.png" -o "$GJTV_CONFIG_DIR/assets/icons/${icon}.png" 2>/dev/null || true
     done
 
     print_success "Assets downloaded"
@@ -701,7 +701,7 @@ configure_hyprland() {
         # Update the exec-once line to use the full path
         sed -i "s|exec-once = gjtv|exec-once = $GJTV_BINARY_DIR/gjtv|g" "$gjtv_conf"
         print_success "Copied local Hyprland configuration"
-    elif curl -fsSL "${RAW_CONTENT_URL}/gjtv-release/hyprland/gjtv.conf" -o "$gjtv_conf" 2>/dev/null; then
+    elif curl -fsSL "${RAW_CONTENT_URL}/hyprland/gjtv.conf" -o "$gjtv_conf" 2>/dev/null; then
         # Update the exec-once line to use the full path
         sed -i "s|exec-once = gjtv|exec-once = $GJTV_BINARY_DIR/gjtv|g" "$gjtv_conf"
         print_success "Downloaded Hyprland configuration"
@@ -787,7 +787,7 @@ configure_hyprland_without_hyprpaper() {
         # Update the exec-once line to use the full path
         sed -i "s|exec-once = gjtv|exec-once = $GJTV_BINARY_DIR/gjtv|g" "$gjtv_conf"
         print_success "Copied local Hyprland configuration"
-    elif curl -fsSL "${RAW_CONTENT_URL}/gjtv-release/hyprland/gjtv.conf" -o "$gjtv_conf" 2>/dev/null; then
+    elif curl -fsSL "${RAW_CONTENT_URL}/hyprland/gjtv.conf" -o "$gjtv_conf" 2>/dev/null; then
         # Update the exec-once line to use the full path
         sed -i "s|exec-once = gjtv|exec-once = $GJTV_BINARY_DIR/gjtv|g" "$gjtv_conf"
         print_success "Downloaded Hyprland configuration"
