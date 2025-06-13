@@ -8,6 +8,12 @@
 "Selected Color" = "D6BA73"
 "Icon Tinting" = true
 "Icon Tint Color" = "FF00FF"
+"Cell Background Color" = "3A3A3A"
+"Cell Border Color" = "5A5A5A"
+"Tab Background Color" = "404040"
+"Tab Border Color" = "606060"
+"Tab Active Color" = "D6BA73"
+"Tab Inactive Color" = "2A2A2A"
 
 [layout]
 "Grid Width" = 6.0
@@ -50,7 +56,6 @@
 
 [quality]
 "High Quality Icons" = true
-"Enable Icon Tint" = false
 
 [input]
 "Launch App" = "Enter"
